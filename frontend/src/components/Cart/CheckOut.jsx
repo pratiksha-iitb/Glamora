@@ -442,7 +442,7 @@ const Checkout = ({ loading, error }) => {
     }
     const handleRazorpayPayment = (checkoutId) => {
         const options = {
-            key: "rzp_test_BApbvKTVX3ZVkN",
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             amount: cart.totalPrice * 100,
             currency: "INR",
             name: "Your Shop Name",
