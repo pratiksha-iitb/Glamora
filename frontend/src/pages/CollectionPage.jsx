@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import ProductGrid from '../components/Products/productgrid';
+import ProductGrid from '../components/Products/ProductGrid';
 import SortOptions from '../components/Products/SortOptions';
 import { FaFilter } from "react-icons/fa";
 import FilterSidebar from '../components/Products/FilterSidebar';

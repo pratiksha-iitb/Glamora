@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
-import ProductGrid from "./productgrid";
+import ProductGrid from "./ProductGrid";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productSlice";
 import { addToCart } from "../../redux/slices/cartSlice";
