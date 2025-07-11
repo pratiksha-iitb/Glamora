@@ -34,17 +34,26 @@ router.post("/", protect, admin, async (req, res) => {
       name,
       email,
       password,
-      role: role|| "customer",
+      role: role || "customer",
     });
 
-    await user.save();
+    const savedUser = await user.save();
 
-    res.status(201).json({ message: "User created successfully" });
+    // Remove password before sending response
+    const userToReturn = {
+      _id: savedUser._id,
+      name: savedUser.name,
+      email: savedUser.email,
+      role: savedUser.role,
+    };
+
+    res.status(201).json(userToReturn); // ✅ Send full user info
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 });
+
 
 // @route   PUT /api/admin/users/:id
 // @desc    Update user info (admin only) – Name, email and role

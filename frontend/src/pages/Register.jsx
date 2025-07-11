@@ -1,4 +1,4 @@
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import register from "../assets/register.webp"; // Adjust path as needed
 import { registerUser } from "../redux/slices/authSlice";
@@ -12,17 +12,17 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch=useDispatch();
-    const navigate=useNavigate();
-    const location=useLocation();
-    const {user,guestId}=useSelector((state)=>state.auth);
-      const {cart}=useSelector((state)=>state.cart);
-  
-      //get redirect parameter and check if its checkout or something else
-      const redirect=new URLSearchParams(location.search).get("redirect")||"/";
-      const isCheckoutRedirect=redirect.includes("checkout");
-      
-      useEffect(() => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, guestId } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+
+  //get redirect parameter and check if its checkout or something else
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+  const isCheckoutRedirect = redirect.includes("checkout");
+
+  useEffect(() => {
     if (user) {
       if (cart?.products.length > 0 && guestId) {
         dispatch(mergeCart({ guestId, user })).then(() => {
@@ -33,15 +33,15 @@ const Register = () => {
       }
     }
   }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUser({name,email,password}));
+    dispatch(registerUser({ name, email, password }));
   };
   return (
     <div className="flex">
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
         <form onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm">
+          className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm">
           <div className="flex justify-center mb-6">
             <h2 className="text-xl font-medium">Glamora</h2>
           </div>
@@ -83,7 +83,8 @@ const Register = () => {
             type="submit"
             className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
           >
-            Sign Up
+            {loading ? "signing up..." : "Sign Up"}
+
           </button>
           <p className="mt-6 text-center text-sm">
             Already have an account?{" "}

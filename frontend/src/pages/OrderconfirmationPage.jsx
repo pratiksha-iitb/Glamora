@@ -14,7 +14,7 @@ const OrderConfirmationPage = () => {
             dispatch(clearCart());
             localStorage.removeItem("cart");
         } else {
-            navigate("/my-order");
+            navigate("/my-orders");
         }
     }, [checkout, dispatch, navigate]);
     const calculateEstimatedDelivery = (createdAt) => {
@@ -86,7 +86,7 @@ const OrderConfirmationPage = () => {
                         {/* payment info */}
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Payment</h4>
-                            <p className="text-gray-600">PayPal</p>
+                            <p className="text-gray-600">Razorpay</p>
                         </div>
                         {/* delivery info */}
                         <div>

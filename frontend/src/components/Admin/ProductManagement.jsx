@@ -1,38 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { deleteProduct, fetchAdminProducts } from "../../redux/slices/adminProductSlice";
 
 const ProductManagement = () => {
-    const products = [
-        {
-            _id: 123422,
-            name: 'tshirt',
-            price: 110,
-            sku: '766231323',
-        },
-        {
-            _id: 163422,
-            name: 'shirt',
-            price: 110,
-            sku: '766231323',
-        },
-        {
-            _id: 423422,
-            name: 'tshirt',
-            price: 510,
-            sku: '766231323',
-        },
-        {
-            _id: 12322,
-            name: 'shirt',
-            price: 110,
-            sku: '76623123',
-        },
-    ];
-    const handleDelete = (id) => {
-        if (window.confirm("Are you sure you want to delete the Product?")) {
-            console.log("Delete product with id:", id);
-        }
+  const dispatch = useDispatch();
+
+  const { products, loading, error } = useSelector(
+    (state) => state.adminProducts
+  );
+
+  useEffect(() => {
+    dispatch(fetchAdminProducts());
+  }, [dispatch]);
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete the Product?")) {
+      dispatch(deleteProduct(id));
     }
+  };
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return <p>Error: {error}</p>;
+
     return (
         <div className="max-w-7xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-6">Product Management</h2>

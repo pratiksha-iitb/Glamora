@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { addUser, deleteUser, fetchUsers, updateUser } from '../../redux/slices/adminSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const UserManagement = () => {
-    const users = [
-        {
-            _id: 124345,
-            name: "John Doe",
-            email: "john@example.com",
-            role: "admin",
-        },
-    ];
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const { user } = useSelector((state) => state.auth);
+    const { users, loading, error } = useSelector((state) => state.admin);
+
+    useEffect(() => {
+        if (user && user.role !== "admin") {
+            navigate("/");
+        }
+    }, [user, navigate]);
+
+    useEffect(() => {
+        if (user && user.role === "admin") {
+           dispatch(fetchUsers());
+        }
+    }, [user, dispatch]);
+   
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -25,6 +38,8 @@ const UserManagement = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("formdata:", formData)
+        dispatch(addUser(formData));
         setFormData({
             name: "",
             email: "",
@@ -33,18 +48,19 @@ const UserManagement = () => {
         });
     }
     const handleRoleChange = (userId, newRole) => {
-        console.log({ id: userId, role: newRole });
+        dispatch(updateUser({ id: userId, role: newRole }));
     }
     const handleDeleteUser = (userId) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            console.log("deleting user with ID:", userId)
+            dispatch(deleteUser(userId));
         }
     }
 
     return (
         <div className="max-w-7xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-6">User Management</h2>
-
+            {loading && <p>Loading...</p>}
+            {error && <p>Error:{error}</p>}
             {/* Add New User Form */}
             <div className="p-6 rounded-lg mb-6">
                 <h3 className="text-lg font-bold mb-4">Add New User</h3>
@@ -93,47 +109,7 @@ const UserManagement = () => {
 
                 </form>
             </div>
-            {/* User List Management */}
-            {/* <div className="overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="min-w-full text-left text-sm text-gray-500">
-          <thead className="bg-gray-100 text-xs uppercase text-gray-700">
-            <tr>
-              <th className="py-3 px-4">Name</th>
-              <th className="py-3 px-4">Email</th>
-              <th className="py-3 px-4">Role</th>
-              <th className="py-3 px-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr
-                key={user._id}
-                className="border-b hover:bg-gray-50"
-              >
-                <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
-                  {user.name}
-                </td>
-                <td className="p-4">{user.email}</td>
-                <td className="p-4">
-                  <select
-                    value={user.role}
-                    onChange={(e) =>
-                      handleRoleChange(user._id, e.target.value)
-                    }
-                    className="border rounded p-2 "
-                  >
-                     <option value="customer">Customer</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </td>
-                <td className="p-4">
-                 <button onClick={()=>handleDeleteUser(user._id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
+            
             <div className="sm:block hidden overflow-x-auto shadow-md sm:rounded-lg">
                 {/* Desktop Table */}
                 <table className="min-w-full text-left text-sm text-gray-500">
@@ -146,7 +122,7 @@ const UserManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
+                         {users.map((user) => (
                             <tr key={user._id} className="border-b hover:bg-gray-50">
                                 <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{user.name}</td>
                                 <td className="p-4">{user.email}</td>
@@ -170,6 +146,7 @@ const UserManagement = () => {
                                 </td>
                             </tr>
                         ))}
+
                     </tbody>
                 </table>
             </div>
@@ -177,14 +154,14 @@ const UserManagement = () => {
             {/* Mobile stacked view */}
             {/* Mobile stacked view */}
             <div className="sm:hidden space-y-4">
-                {users.map((user) => (
+                {Array.isArray(users) && users.filter(u => u && u.name).map((user) => (
                     <div
                         key={user._id}
                         className="border rounded-lg p-4 shadow-sm bg-white"
                     >
                         <div className="flex justify-between items-center mb-2">
                             <div className="text-base font-semibold text-gray-800">{user.name}</div>
-                            
+
                         </div>
 
                         <div className="text-sm text-gray-600 mb-2">
@@ -204,8 +181,8 @@ const UserManagement = () => {
                             </select>
                             <button
                                 onClick={() => handleDeleteUser(user._id)}
-                                 className="bg-red-500 ml-5 text-white px-3 py-1 rounded hover:bg-red-600"
-                            > 
+                                className="bg-red-500 ml-5 text-white px-3 py-1 rounded hover:bg-red-600"
+                            >
                                 Delete
                             </button>
                         </div>

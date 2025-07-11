@@ -1,58 +1,59 @@
-
-
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchAdminProducts } from "../redux/slices/adminProductSlice";
+import { fetchAllOrders } from "../redux/slices/adminOrderSlice";
 
 const Adminhome = () => {
-  const orders = [
-    {
-      _id: 123422,
-      user: { name: 'pratiksha' },
-      totalPrice: 110,
-      status: 'Processing',
-    },
-    {
-      _id: 123423,
-      user: { name: 'pratiksha' },
-      totalPrice: 120,
-      status: 'Shipped',
-    },
-    {
-      _id: 123424,
-      user: { name: 'pratiksha' },
-      totalPrice: 130,
-      status: 'Delivered',
-    },
-    {
-      _id: 123425,
-      user: { name: 'pratiksha' },
-      totalPrice: 140,
-      status: 'Cancelled',
-    },
-  ];
+  const dispatch = useDispatch();
 
+  const {
+    products,
+    loading: productsLoading,
+    error: productsError,
+  } = useSelector((state) => state.adminProducts);
+
+  const {
+    orders,
+    totalOrders,
+    totalSales,
+    loading: ordersLoading,
+    error: ordersError,
+  } = useSelector((state) => state.adminOrders);
+
+  useEffect(()=>{
+    dispatch(fetchAdminProducts());
+    dispatch(fetchAllOrders());
+  },[dispatch])
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-
+      {productsLoading || ordersLoading ?(
+        <p>Loading...</p>
+      ):productsError?(
+        <p className="text-red-500">Error Fetching products :{productsError}</p>
+      ):ordersError?(
+        <p className="text-red-500">Error Fetching orders :{ordersError}</p>
+      ):(
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="p-4 shadow-md rounded-lg">
           <h2 className="text-xl font-semibold">Revenue</h2>
-          <p className="text-2xl">$10000</p>
+          <p className="text-2xl">&#8377;{totalSales.toFixed(2)}</p>
         </div>
 
         <div className="p-4 shadow-md rounded-lg">
           <h2 className="text-xl font-semibold">Total Orders</h2>
-          <p className="text-2xl">200</p>
+          <p className="text-2xl">{totalOrders}</p>
           <Link to="/admin/orders" className="text-blue-500 hover:underline">Manage Orders</Link>
         </div>
 
         <div className="p-4 shadow-md rounded-lg">
           <h2 className="text-xl font-semibold">Total Products</h2>
-          <p className="text-2xl">100</p>
+          <p className="text-2xl">{products.length}</p>
           <Link to="/admin/products" className="text-blue-500 hover:underline">Manage Products</Link>
         </div>
       </div>
+      )}
 
       <div className="mt-6">
         <h2 className="text-2xl font-bold mb-4">Recent Orders</h2>
@@ -76,8 +77,8 @@ const Adminhome = () => {
                     className="border-b hover:bg-gray-50 cursor-pointer"
                   >
                     <td className="p-4">{order._id}</td>
-                    <td className="p-4">{order.user.name}</td>
-                    <td className="p-4">${order.totalPrice}</td>
+                    <td>{order.user?.name || "Unknown"}</td> 
+                    <td className="p-4">&#8377;{order.totalPrice.toFixed(2)}</td>
                     <td className="p-4">{order.status}</td>
                   </tr>
                 ))
@@ -106,7 +107,7 @@ const Adminhome = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-semibold text-gray-700">User:</span>
-                  <span>{order.user.name}</span>
+                  <td className="p-4">{order.user?.name || "Unknown"}</td>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-semibold text-gray-700">Total Price:</span>
@@ -123,6 +124,7 @@ const Adminhome = () => {
           )}
         </div>
       </div>
+      
     </div>
   );
 };
