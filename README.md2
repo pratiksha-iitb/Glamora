@@ -1,0 +1,16 @@
+payment flow
+[User Clicks Pay]
+        ↓
+[Frontend Sends Checkout to Backend]
+        ↓
+[Backend Creates Razorpay Order]
+        ↓
+[Frontend Opens Razorpay Checkout]
+        ↓
+[User Pays]
+        ↓
+[Success Handler Fires]
+        ↓
+[Backend Updates Order as Paid]
+        ↓
+[Razorpay Settles ₹ to Your Bank]
