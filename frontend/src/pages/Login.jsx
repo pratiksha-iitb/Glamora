@@ -75,6 +75,9 @@ const Login = () => {
             <Link to={`/register?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500">
               Register
             </Link>
+            {/* <Link to='/register' className="text-blue-500">
+                  Register
+            </Link> */}
           </p>
         </form>
       </div>

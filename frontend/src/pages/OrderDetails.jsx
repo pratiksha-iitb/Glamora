@@ -262,10 +262,10 @@ const OrderDetailsPage = () => {
                         </div>
                       </td>
                       {/* <td className="py-2 px-4 text-left">{item.size || "-"}</td> */}
-                      <td className="py-2 px-4 text-right">${item.price}</td>
+                      <td className="py-2 px-4 text-right">&#8377;{item.price}</td>
                       <td className="py-2 px-4 text-right">{item.quantity}</td>
                       <td className="py-2 px-4 text-right">
-                        ${item.price * item.quantity}
+                        &#8377;{item.price * item.quantity}
                       </td>
                     </tr>
                   ))}
@@ -294,9 +294,9 @@ const OrderDetailsPage = () => {
                   </div>
                   <div className="text-sm text-gray-700 space-y-1">
                     {/* <p><span className="font-medium">Size:</span> {item.size || "-"}</p> */}
-                    <p><span className="font-medium">Unit Price:</span> ${item.price}</p>
+                    <p><span className="font-medium">Unit Price:</span> &#8377;{item.price}</p>
                     <p><span className="font-medium">Quantity:</span> {item.quantity}</p>
-                    <p><span className="font-medium">Total:</span> ${item.price * item.quantity}</p>
+                    <p><span className="font-medium">Total:</span> &#8377;{item.price * item.quantity}</p>
                   </div>
                 </div>
               ))}

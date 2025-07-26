@@ -20,7 +20,7 @@ const FeaturedCollection = () => {
                         day.
                     </p>
                     <Link
-                        to="/collections/all"
+                        to="/collection/all"
                         className="bg-black text-white px-6 py-3 rounded-lg text-sm md:text-lg hover:bg-gray-800"
                     >
                         Explore Now

@@ -12,9 +12,9 @@ const FilterSidebar = () => {
         material: [],
         brand: [],
         minPrice: 0,
-        maxPrice: 10000,
+        maxPrice: 1000,
     });
-    const [priceRange, setPriceRange] = useState([0, 10000]);
+    const [priceRange, setPriceRange] = useState([0, 1000]);
     const categories = ["Top Wear", "Bottom Wear"];
     const colors = [
         "Red",
@@ -60,10 +60,10 @@ const FilterSidebar = () => {
             material: params.material ? params.material.split(",") : [],
             brand: params.brand ? params.brand.split(",") : [],
             minPrice: params.minPrice || 0,
-            maxPrice: params.maxPrice || 10000,
+            maxPrice: params.maxPrice || 1000,
         });
 
-        setPriceRange([0, params.maxPrice || 10000]);
+        setPriceRange([0, params.maxPrice || 1000]);
     }, [searchParams]);
 
     const handleFilterChange = (e) => {
@@ -135,10 +135,10 @@ const FilterSidebar = () => {
                         material: [],
                         brand: [],
                         minPrice: 0,
-                        maxPrice: 10000,
+                        maxPrice: 1000,
                     };
                     setFilters(defaultFilters);
-                    setPriceRange([0, 10000]);
+                    setPriceRange([0, 1000]);
                     updateURLParams(defaultFilters);
                 }}
                 className="px-2 py-1 mb-4 text-sm rounded border border-gray-500 text-gray-900 hover:bg-blue-500 hover:text-white transition"
@@ -257,7 +257,7 @@ const FilterSidebar = () => {
             {/* price range filter */}
             <div className="mb-8">
                 <label className='block text-gray-600 font-medium mb-2'>Price Range</label>
-                <input type='range' name="priceRange" min={0} max={10000}
+                <input type='range' name="priceRange" min={0} max={1000}
                     className='w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer
                    [&::-webkit-slider-thumb]:appearance-none 
                    [&::-webkit-slider-thumb]:h-4 

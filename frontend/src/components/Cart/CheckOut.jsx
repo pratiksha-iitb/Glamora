@@ -445,7 +445,7 @@ const Checkout = ({ loading, error }) => {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             amount: cart.totalPrice * 100,
             currency: "INR",
-            name: "Your Shop Name",
+            name: "Glamora",
             description: "Order Payment",
             image: "https://your_logo_url.com/logo.png",
             order_id: "", // If you're generating orders on backend, add it here
